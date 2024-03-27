@@ -29,9 +29,13 @@ final Expense expense;
                     const SizedBox(width: 10),
                     Text(expense.formattedDate),
                   ],),
+                 
                 ],
-              )
-
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+ Text(expense.description),
           ],)
       ),
     );

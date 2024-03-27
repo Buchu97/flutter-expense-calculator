@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:travel_expenses/models/expense.dart';
 
 class NewExpense extends StatefulWidget {
@@ -38,21 +39,26 @@ class _NewExpenseState extends State<NewExpense> {
     });
   }
 
-  void _submitExpense(){
+  void _submitExpense() {
     final enteredAmount = double.tryParse(_amountController.text);
-    final amountIsInvalid = enteredAmount == null || enteredAmount<=0;
-    if(_titleController.text.trim().isEmpty || amountIsInvalid || _chosenDate ==null){
-      showDialog(context: context, builder: (dialogContext)=>
-      AlertDialog(
-        title: const Text('Invalid Input'),
-        content: const Text('Please ensure you have entered a Title, Amount, Date, and Category'),
-        actions: [
-          TextButton(onPressed: (){
-            Navigator.pop(dialogContext);
-          }, 
-          child: const Text('Okay'))
-        ],
-      ));
+    final amountIsInvalid = enteredAmount == null || enteredAmount <= 0;
+    if (_titleController.text.trim().isEmpty ||
+        amountIsInvalid ||
+        _chosenDate == null) {
+      showDialog(
+          context: context,
+          builder: (dialogContext) => AlertDialog(
+                title: const Text('Invalid Input'),
+                content: const Text(
+                    'Please ensure you have entered a Title, Amount, Date, and Category'),
+                actions: [
+                  TextButton(
+                      onPressed: () {
+                        Navigator.pop(dialogContext);
+                      },
+                      child: const Text('Okay'))
+                ],
+              ));
       return;
     }
     widget.onAddExpense(Expense(
@@ -62,9 +68,9 @@ class _NewExpenseState extends State<NewExpense> {
       category: _chosenCategory,
       description: _descController.text,
     ));
-    Navigator.pop(context); //1. added this to close the modal after adding the expense
+    Navigator.pop(
+        context); //1. added this to close the modal after adding the expense
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -100,7 +106,8 @@ class _NewExpenseState extends State<NewExpense> {
                 children: [
                   Text(_chosenDate == null
                       ? 'Select Date'
-                      : formatter.format(_chosenDate!)), //If you print the chosenDate without the format, it actually works, unsure why it wasn't showing up when we tried during the recording
+                      : formatter.format(
+                          _chosenDate!)), //If you print the chosenDate without the format, it actually works, unsure why it wasn't showing up when we tried during the recording
                   IconButton(
                       onPressed: _openDatePicker,
                       icon: const Icon(Icons.calendar_month))
@@ -119,11 +126,11 @@ class _NewExpenseState extends State<NewExpense> {
               ),
               DropdownButton(
                   value: _chosenCategory,
-                  items: Category.values.map
-                  ((category) => 
-                    DropdownMenuItem(
-                      value: category,
-                      child: Text(category.name.toUpperCase()))).toList(),
+                  items: Category.values
+                      .map((category) => DropdownMenuItem(
+                          value: category,
+                          child: Text(category.name.toUpperCase())))
+                      .toList(),
                   onChanged: (value) {
                     if (value == null) return;
                     setState(() {
@@ -135,20 +142,22 @@ class _NewExpenseState extends State<NewExpense> {
           const SizedBox(
             height: 30,
           ),
-           Row(
+          Row(
             children: [
-               TextField(
-                 
-            controller: _descController,
-            maxLength: 145,
-            decoration: const InputDecoration(
-              label: Text('descpription'),
-            ),
-          ),
-               
-            ]
-           
-              
+              SizedBox(
+                width: 350,
+                child: TextField(
+                  controller: _descController,
+                  maxLength: 500,
+                  decoration: const InputDecoration(
+                    label: Text('Descpription'),
+                  ),
+                ),
+              ),
+              // const SizedBox(
+              //   width: 50,
+              // ),
+            ],
           ),
           Row(
             children: [
@@ -164,8 +173,6 @@ class _NewExpenseState extends State<NewExpense> {
               ),
             ],
           ),
-         
-          
         ],
       ),
     );
