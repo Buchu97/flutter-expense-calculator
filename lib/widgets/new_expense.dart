@@ -16,6 +16,7 @@ class _NewExpenseState extends State<NewExpense> {
   final _amountController = TextEditingController();
   DateTime? _chosenDate;
   Category _chosenCategory = Category.food;
+  final _descController = TextEditingController();
 
   @override
   void dispose() {
@@ -59,6 +60,7 @@ class _NewExpenseState extends State<NewExpense> {
       amount: enteredAmount,
       date: _chosenDate!,
       category: _chosenCategory,
+      description: _descController.text,
     ));
     Navigator.pop(context); //1. added this to close the modal after adding the expense
   }
@@ -133,6 +135,21 @@ class _NewExpenseState extends State<NewExpense> {
           const SizedBox(
             height: 30,
           ),
+           Row(
+            children: [
+               TextField(
+                 
+            controller: _descController,
+            maxLength: 145,
+            decoration: const InputDecoration(
+              label: Text('descpription'),
+            ),
+          ),
+               
+            ]
+           
+              
+          ),
           Row(
             children: [
               ElevatedButton(
@@ -146,7 +163,9 @@ class _NewExpenseState extends State<NewExpense> {
                 child: const Text('Cancel'),
               ),
             ],
-          )
+          ),
+         
+          
         ],
       ),
     );
